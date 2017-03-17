@@ -68,6 +68,7 @@ class SitemapPlugin extends Plugin
         foreach ($routes as $route => $path) {
             $page = $pages->get($path);
 
+            if ($page->published() && $page->routable() && !preg_match(sprintf("@^(%s)$@i", implode('|', $ignores)), $page->route())) {
                 $entry = new SitemapEntry();
                 $entry->location = $page->canonical();
                 $entry->lastmod = date('Y-m-d', $page->modified());
